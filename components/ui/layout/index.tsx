@@ -2,10 +2,10 @@ import React from "react";
 import LayoutNavbar from "./nav";
 import Footer from "./footer";
 
-const Layout = ({ children, isEmployer, isLoggedIn }: any) => {
+const Layout = ({ children }: any) => {
 	return (
 		<>
-			<LayoutNavbar isEmployer={false} isLoggedIn={false} />
+			<LayoutNavbar />
 			<div className="mx-auto">{children}</div>
 			<Footer />
 		</>

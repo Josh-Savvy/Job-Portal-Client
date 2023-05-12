@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { OutlinedButton1, PrimaryButton } from "../../atoms/buttons";
 import Link from "next/link";
+import { isAuth } from "../../../../utils/auth";
+import Image from "next/image";
+import { AccountType, UserType } from "../../../../interfaces/user.type";
+import { useQuery } from "@apollo/client";
+import { GET_USER } from "../../../../types/graphql.type";
 
-const LayoutNavbar = ({
-	isLoggedIn = false,
-	isEmployer = false,
-}: {
-	isLoggedIn: boolean;
-	isEmployer: boolean;
-}) => {
+const LayoutNavbar = () => {
+	const { loading, error, data, refetch } = useQuery(GET_USER, {
+		fetchPolicy: "network-only",
+	});
+	useEffect(() => {
+		refetch();
+	}, []);
+
 	return (
-		<div className="fixed top-0 w-full z-50 flex justify-between p-5 items-center bg-white border-b border-zinc-200 md:px-14 px-7">
+		<div className="fixed top-0 w-full z-50 flex justify-between p-5 items-center bg-white border-b border-zinc-200 md:px-14 px-7 max-h-[10%]">
 			<div className="flex items-center gap-12">
 				<Link href="/">
 					<h1 className="font-bold text-2xl relative cursor-pointer">
@@ -52,13 +58,33 @@ const LayoutNavbar = ({
 					</div>
 				</form>
 			</div>
-			<div className="flex gap-5 items-center lg:w-[25%]">
-				{!isLoggedIn ? <OutlinedButton1 title="Sign In" link="/login" /> : "Profile"}
-				<PrimaryButton
-					title="Post a Job"
-					link={isLoggedIn && isEmployer ? "/job/new" : "/"}
-				/>
-			</div>
+			{!isAuth() && (
+				<div className={`flex gap-5 items-center lg:w-[40%]`}>
+					<OutlinedButton1 title="Sign In" link="/login" />
+					<PrimaryButton title="Post a Job" link="/login" />
+				</div>
+			)}
+			{isAuth() && (
+				<div className={`flex gap-5 items-center lg:w-[40%] flex-row-reverse`}>
+					<Link href="/freelancer/dashboard">
+						<div
+							className="cursor-pointer h-auto p-[0.5px] w-auto flex justify-center
+				 rounded-full bg-blue-400"
+						>
+							<Image
+								src="/images/default_image.png"
+								alt="profile_image"
+								height={60}
+								width={60}
+								className="w-full h-auto object-cover rounded-full"
+							/>
+						</div>
+					</Link>
+				</div>
+			)}
+			{/* {isAuth() && data?.getUser?.accountType !== AccountType.FREELANCER && (
+				<PrimaryButton title="Post a Job" link="/job/new" />
+			)} */}
 		</div>
 	);
 };

@@ -3,7 +3,7 @@ import FreelancerSettingsNav from "./nav";
 import FreelancerBasicProfileSetting from "./Basic";
 import FreelancerExperienceSetting from "./Experience";
 
-const FreelancerProfileSettings = () => {
+const FreelancerProfileSettings = ({ user }: any) => {
 	const links = [
 		{ title: "basic", icon: "PersonOutline" },
 		{ title: "profile", icon: "PersonCircleOutline" },

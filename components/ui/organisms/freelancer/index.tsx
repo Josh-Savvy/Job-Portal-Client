@@ -6,8 +6,17 @@ import FreelancerSavedJobs from "./jobs/saved";
 import FreelancerJobAlerts from "./jobs/alerts";
 import FreelancerProfileSettings from "./settings";
 import { useRouter } from "next/router";
+import { UserType } from "../../../../interfaces/user.type";
 
-const Freelancer = ({ isMobileOpen, closeMobileNav }: any) => {
+const Freelancer = ({
+	isMobileOpen,
+	closeMobileNav,
+	user,
+}: {
+	isMobileOpen: boolean;
+	closeMobileNav: Function;
+	user: UserType;
+}) => {
 	const links = [
 		{
 			icon: "LayersOutline",
@@ -47,7 +56,6 @@ const Freelancer = ({ isMobileOpen, closeMobileNav }: any) => {
 	};
 
 	useEffect(() => {
-		console.log(router.asPath);
 		!router.asPath.split("#")[1] && setActiveLink("#overview");
 	}, [router]);
 
@@ -55,17 +63,17 @@ const Freelancer = ({ isMobileOpen, closeMobileNav }: any) => {
 		<FreelancerDashboardNav props={navProps}>
 			<div className="">
 				{router.asPath.split("#")[1] === "overview" ? (
-					<OverviewForFreelancer />
+					<OverviewForFreelancer user={user} />
 				) : router.asPath.split("#")[1] === "applied-jobs" ? (
-					<FreelancerAppliedJobs />
+					<FreelancerAppliedJobs user={user} />
 				) : router.asPath.split("#")[1] === "saved-jobs" ? (
-					<FreelancerSavedJobs />
+					<FreelancerSavedJobs user={user} />
 				) : router.asPath.split("#")[1] === "job-alert" ? (
-					<FreelancerJobAlerts />
+					<FreelancerJobAlerts user={user} />
 				) : router.asPath.split("#")[1] === "settings" ? (
-					<FreelancerProfileSettings />
+					<FreelancerProfileSettings user={user} />
 				) : (
-					<OverviewForFreelancer />
+					<OverviewForFreelancer user={user} />
 				)}
 			</div>
 		</FreelancerDashboardNav>

@@ -45,11 +45,11 @@ const JobCard = ({
 							<p className="text-center p1 px-3 bg-blue-100 rounded-lg">{jobNature}</p>
 						</div>
 						<div className="flex gap-2 items-center">
-							<p>{location}</p>
-							<p className="text-zinc-500">{salary}</p>
+							<p>{location}</p> |<p className="text-zinc-500">Salary: {salary}</p>
 						</div>
 					</div>
 				</div>
+				
 				<div className="flex justify-between items-center text-sm">
 					<p>{dateApplied}</p>
 					{status ? (

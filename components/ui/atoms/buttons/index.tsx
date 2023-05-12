@@ -76,11 +76,13 @@ export const PrimaryButton = ({
 	link,
 	icon,
 	className,
+	onClick,
 }: {
 	title: string;
 	link?: string;
 	icon?: any;
 	className?: string;
+	onClick?: Function;
 }) => {
 	return (
 		<Link href={link ? link : "#"}>

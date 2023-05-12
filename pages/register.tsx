@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { EyeOffOutline, EyeOutline } from "react-ionicons";
 import { categoryData } from "../components/ui/organisms/homepage/popular-categories/data";
 import { ToastContainer, toast } from "react-toastify";
+import { GetServerSidePropsContext } from "next";
 
 const Register = () => {
 	const [category, setCategory] = useState<string>("");
@@ -306,6 +307,22 @@ const Register = () => {
 			<div className="w-20 h-40 absolute bg-blue-300 rounded-full bottom-20 left-10 transform rotate-45 hidden md:block"></div>
 		</form>
 	);
+};
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+	const token = ctx.req.cookies.token;
+	if (token) {
+		return {
+			redirect: {
+				destination: "/freelancer",
+				permanent: false,
+			},
+		};
+	} else {
+		return {
+			props: {},
+		};
+	}
 };
 
 export default Register;

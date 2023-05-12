@@ -1,12 +1,13 @@
 import React from "react";
 import FreelancerDashboardTemplate from "../../components/templates/freelancer";
+import withAuthUser from "../authUser";
 
-const FreelancerDashboard = () => {
+const FreelancerDashboard = ({ user }: any) => {
 	return (
 		<div>
-			<FreelancerDashboardTemplate />
+			<FreelancerDashboardTemplate user={user} />
 		</div>
 	);
 };
 
-export default FreelancerDashboard;
+export default withAuthUser(FreelancerDashboard);

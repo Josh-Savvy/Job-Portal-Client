@@ -1,7 +1,9 @@
 import { BriefcaseOutline, PeopleOutline, PersonOutline } from "react-ionicons";
-import NumberCounter from "../../../../../utils";
+import { NumberCounter } from "../../../../../utils";
 
-const StatsComponent = () => {
+const StatsComponent = (...props: any) => {
+	const { allEmployers, allFreelancers, allJobs } = props[0][0];
+
 	const StatMiniComp = ({
 		icon,
 		text,
@@ -28,8 +30,8 @@ const StatsComponent = () => {
 	return (
 		<div className="xl:flex gap-5 items-center grid md:grid-cols-2 lg:grid-cols-3">
 			<StatMiniComp
-				text="Job Openings"
-				number={4}
+				text={`${allJobs && allJobs?.length <= 1 ? "Job Opening" : "Job Openings"}`}
+				number={allJobs ? allJobs?.length : 0}
 				icon={
 					<>
 						<div className="group-hover:flex hidden">
@@ -42,8 +44,10 @@ const StatsComponent = () => {
 				}
 			/>
 			<StatMiniComp
-				text="Employers"
-				number={32}
+				text={`${
+					allEmployers && allEmployers?.length <= 1 ? "Employer" : "Employers"
+				}`}
+				number={allEmployers ? allEmployers?.length : 0}
 				icon={
 					<>
 						<div className="group-hover:flex hidden">
@@ -56,8 +60,12 @@ const StatsComponent = () => {
 				}
 			/>
 			<StatMiniComp
-				text="Freelancers"
-				number={50}
+				text={`${
+					allFreelancers && allFreelancers?.length <= 1
+						? "Freelancer"
+						: "Freelancers"
+				}`}
+				number={allFreelancers ? allFreelancers?.length : 0}
 				icon={
 					<>
 						<div className="group-hover:flex hidden">
@@ -70,8 +78,12 @@ const StatsComponent = () => {
 				}
 			/>
 			<StatMiniComp
-				text="New Jobs"
-				number={0}
+				text={`${
+					allJobs && Math.pow(allEmployers?.length, allJobs?.length) <= 1
+						? "New Job"
+						: "New Jobs"
+				}`}
+				number={allJobs ? Math.pow(allEmployers?.length, allJobs?.length) : 0}
 				icon={
 					<>
 						<div className="group-hover:flex hidden">

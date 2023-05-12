@@ -1,10 +1,16 @@
+import { useMutation } from "@apollo/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { EyeOffOutline, EyeOutline } from "react-ionicons";
 import { ToastContainer, toast } from "react-toastify";
+import { LOGIN_MUTATION } from "../types/graphql.type";
+import { authenticate, logout } from "../utils/auth";
+import { GetServerSidePropsContext } from "next";
 
-const Login = () => {
+const Login = ({ notLoggedin }: { notLoggedin: boolean }) => {
+	!notLoggedin && logout();
+	const [login, { loading, error, data }] = useMutation(LOGIN_MUTATION);
 	const router = useRouter();
 	const [showPassword, setShowPassword] = useState<boolean>(false);
 	const formDetails = {
@@ -20,7 +26,7 @@ const Login = () => {
 			[e.target.name]: e.target.value,
 		});
 	};
-	const handleSubmit = async (e: any) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (!email || !password) {
 			toast.error("Invalid Credentials!", {
@@ -36,33 +42,42 @@ const Login = () => {
 			return new Error("Invalid Credentials!");
 		}
 		try {
-			console.table(formState);
+			const response = await login({
+				variables: { email, password },
+			});
 			setFormState(formDetails);
-			router.replace("/freelancer/dashboard");
+			// toast.success("Login success!", {
+			// 	position: "top-center",
+			// 	theme: "light",
+			// 	autoClose: 5000,
+			// 	hideProgressBar: false,
+			// 	closeOnClick: true,
+			// 	pauseOnHover: true,
+			// 	draggable: true,
+			// 	progress: undefined,
+			// });
+			authenticate(response.data.login, () => {
+				router.replace("/freelancer/dashboard");
+			});
 		} catch (error: any) {
-			console.log(error);
-			if (error?.response?.status === 400) {
-				toast.error(
-					`${
-						error.response?.data?.message
-							? error.response?.data?.message
-							: "Oops! An error occured. Please try again!"
-					}`,
-					{
-						position: "top-center",
-						theme: "light",
-						autoClose: 5000,
-						hideProgressBar: false,
-						closeOnClick: true,
-						pauseOnHover: true,
-						draggable: true,
-						progress: undefined,
-					},
-				);
-			}
-			setFormState(formDetails);
+			toast.error(
+				`${
+					error.message ? error.message : "Oops! An error occured. Please try again!"
+				}`,
+				{
+					position: "top-center",
+					theme: "light",
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				},
+			);
 		}
 	};
+
 	return (
 		<form
 			autoComplete="false"
@@ -143,5 +158,22 @@ const Login = () => {
 		</form>
 	);
 };
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+	const token = ctx.req.cookies.token;
+
+	if (token) {
+		return {
+			redirect: {
+				destination: "/freelancer",
+				permanent: false,
+			},
+		};
+	} else {
+		return {
+			props: { notLoggedin: true },
+		};
+	}
+}
 
 export default Login;

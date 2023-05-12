@@ -6,12 +6,21 @@ const FreelancerPage = () => {
 };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+	const token = ctx.req.cookies.token;
+	if (!token) {
+		return {
+			redirect: {
+				destination: "/login",
+				permanent: false,
+			},
+		};
+	}
+
 	return {
 		redirect: {
 			permanent: false,
 			destination: `/freelancer/dashboard`,
 		},
-		props: {},
 	};
 };
 

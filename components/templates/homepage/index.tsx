@@ -6,12 +6,28 @@ import FeaturedJob from "../../ui/organisms/homepage/featured-job";
 import TopCompanies from "../../ui/organisms/homepage/top-companies";
 import Testimonials from "../../ui/organisms/homepage/testimonials";
 import UserCTA from "../../ui/organisms/homepage/user-cta";
+import { IndustryType, JobType, UserType } from "../../../interfaces/user.type";
 
-const HomepageTemplate = () => {
+const HomepageTemplate = ({
+	allFreelancers,
+	allEmployers,
+	allJobs,
+	industriesData,
+}: {
+	allFreelancers: UserType[];
+	allEmployers: UserType[];
+	allJobs: JobType[];
+	industriesData: IndustryType[];
+}) => {
 	return (
 		<div className="">
-			<Hero />
-			<PopularCategories />
+			<Hero
+				allFreelancers={allFreelancers}
+				allEmployers={allEmployers}
+				allJobs={allJobs}
+				industriesData={industriesData}
+			/>
+			<PopularCategories industriesData={industriesData} />
 			<OurWorkingProcess />
 			<FeaturedJob />
 			<TopCompanies />

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import * as ReactIcons from "react-ionicons";
+import { logout, removeLocalStorage } from "../../../../../utils/auth";
 
 const FreelancerDashboardNav = ({
 	props: {
@@ -84,6 +85,12 @@ const FreelancerDashboardNav = ({
 								);
 							})}
 							<li
+								onClick={() => {
+									logout(() => {
+										removeLocalStorage("user");
+										router.replace("/login");
+									});
+								}}
 								className="text-center group hover:font-semibold px-8 duration-300 bg-red-500 
 							hover:bg-red-700 text-white cursor-pointer p-3 rounded-xl w-3/5 flex items-center 
 							gap-3 lg:mt-20"

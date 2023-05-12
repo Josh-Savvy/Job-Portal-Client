@@ -11,6 +11,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import NProgress from "nprogress";
 import { useRouter } from "next/router";
+import { ApolloProvider } from "@apollo/client";
+import client from "../apolloClient";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
 	const [loading, setLoading] = useState(false);
@@ -40,9 +42,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 	}, []);
 
 	return (
-		<Layout>
-			<Component {...pageProps} />
-		</Layout>
+		<ApolloProvider client={client}>
+			<Layout>
+				<Component {...pageProps} />
+			</Layout>
+		</ApolloProvider>
 	);
 };
 
