@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { ArrowForwardOutline } from "react-ionicons";
+import { RegAccountType } from "../../../../../interfaces/user.type";
 
 const UserCTA = () => {
 	return (
@@ -16,7 +17,7 @@ const UserCTA = () => {
 								Click the button below to get started with our candidate registration
 								process. You will be able to post your resume and apply for jobs.
 							</p>
-							<Link href="/register">
+							<Link href={`/register?type=${RegAccountType.FREELANCER.toLowerCase()}`}>
 								<div className="hover:scale-105 cursor-pointer flex items-center lg:text-[dodgerblue] duration-300 lg:bg-white bg-blue-600 p-3 lg:w-1/3 md:w-2/5 text-white gap-2 rounded-lg mt-5">
 									Register
 									<div className="hidden lg:flex">
@@ -36,7 +37,7 @@ const UserCTA = () => {
 								Click the button below to get started with our employer registration
 								process. You will be able to post jobs and get candidates for your job.
 							</p>
-							<Link href="/register">
+							<Link href={`/register?type=${RegAccountType.EMPLOYER.toLowerCase()}`}>
 								<div className="hover:scale-105 cursor-pointer flex items-center lg:text-[dodgerblue] duration-300 lg:bg-white bg-blue-600 p-3 lg:w-1/3 md:w-2/5 text-white gap-2 rounded-lg mt-5">
 									Register
 									<div className="hidden lg:flex">

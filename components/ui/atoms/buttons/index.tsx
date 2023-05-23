@@ -14,7 +14,7 @@ export const OutlinedButton1 = ({
 	return (
 		<Link href={link ? link : "#"}>
 			<div className={className}>
-				<div className="w-full group border border-blue-300 hover:border-blue-500 rounded p-2.5 px-4 text-blue-500 cursor-pointer hover:bg-blue-100 duration-300 font-medium">
+				<div className="w-full group border border-blue-300 hover:border-blue-500 rounded p-2 px-4 text-blue-500 cursor-pointer hover:bg-blue-100 duration-300 font-medium">
 					<div className="flex items-center gap-3">
 						{title}
 						{icon}
@@ -30,16 +30,18 @@ export const OutlinedButton2 = ({
 	link,
 	icon,
 	className,
+	onClick,
 }: {
 	title: string;
 	link?: string;
 	icon?: any;
 	className?: string;
+	onClick?: any;
 }) => {
 	return (
 		<Link href={link ? link : "#"}>
-			<div className={className}>
-				<div className="w-full group rounded p-3 px-4 text-blue-500 cursor-pointer bg-blue-100 hover:bg-blue-500 duration-300 font-medium">
+			<div className={className} onClick={onClick}>
+				<div className="w-full group rounded p-2 px-4 text-blue-500 cursor-pointer bg-blue-100 hover:bg-blue-500 duration-300 font-medium">
 					<div className="flex items-center gap-3 group-hover:text-white">
 						{title}
 						{icon}
@@ -77,18 +79,12 @@ export const PrimaryButton = ({
 	icon,
 	className,
 	onClick,
-}: {
-	title: string;
-	link?: string;
-	icon?: any;
-	className?: string;
-	onClick?: Function;
-}) => {
+}: any) => {
 	return (
 		<Link href={link ? link : "#"}>
-			<div className={className}>
-				<div className="bg-blue-500 p-3 rounded text-white hover:bg-blue-600 duration-300 cursor-pointer">
-					<div className="flex items-center gap-3 text-sm">
+			<div className={className} onClick={onClick}>
+				<div className="text-center bg-blue-500 p-2 px-4 rounded text-white hover:bg-blue-800 duration-300 cursor-pointer">
+					<div className="flex items-center gap-3 text-sm text-center">
 						{title} {icon}
 					</div>
 				</div>

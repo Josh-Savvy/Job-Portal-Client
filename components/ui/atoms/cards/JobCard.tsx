@@ -1,7 +1,14 @@
 import Image from "next/image";
 import React from "react";
 import { PrimaryButton } from "../buttons";
-import { Checkmark, CloseOutline, EyeOutline } from "react-ionicons";
+import {
+	ListOutline,
+	CashOutline,
+	Checkmark,
+	CloseOutline,
+	EyeOutline,
+	LocationOutline,
+} from "react-ionicons";
 import Link from "next/link";
 
 const JobCard = ({
@@ -9,7 +16,7 @@ const JobCard = ({
 	location,
 	jobNature,
 	salary,
-	dateApplied,
+	dateCreated,
 	status,
 	slug,
 	imgSrc,
@@ -18,63 +25,67 @@ const JobCard = ({
 	location: string;
 	jobNature: string;
 	salary: string;
-	dateApplied: string;
+	dateCreated: string;
 	status: boolean;
 	slug: string;
 	imgSrc?: string;
 }) => {
 	return (
-		<div>
+		<Link href={`/jobs/${slug}`}>
 			<div
-				className="grid md:grid-cols-2 pb-3 items-center hover:shadow-lg cursor-default hover:shadow-blue-200 rounded-lg 
-        hover:border-blue-500 px-3 pr-5 duration-300 border-2 border-blue-100 "
+				className="animate__animated animate__fadeInUp cursor-pointer flex items-start hover:shadow-lg 
+				cursor-default hover:shadow-blue-200 rounded-lg hover:border-blue-500 duration-300 border 
+				border-[#f5f5f5] shadow gap-4"
 			>
-				<div className="flex gap-3 items-center">
-					<div className="flex items-center h-full w-auto rounded-lg">
-						<Image
+				<div className="md:flex grid gap-3 items-center w-2/5">
+					<div className="flex items-center h-40 md:w-auto w-full rounded-lg">
+						<img
 							src={imgSrc ? imgSrc : "/images/default_image.png"}
-							alt="skd"
-							height={100}
-							width={100}
-							className="object-contain h-full w-full rounded-xl"
+							alt={company}
+							className={
+								imgSrc
+									? "object-cover h-full w-full rounded"
+									: "object-contain h-full w-full rounded"
+							}
 						/>
 					</div>
-					<div className="grid md:grid-cols-none sm:grid-cols-2 md:gap-5 gap-10 text-sm">
-						<div className="flex gap-2 items-center">
-							<p className="font-bold">{company}</p>
-							<p className="text-center p1 px-3 bg-blue-100 rounded-lg">{jobNature}</p>
-						</div>
-						<div className="flex gap-2 items-center">
-							<p>{location}</p> |<p className="text-zinc-500">Salary: {salary}</p>
+				</div>
+				<div className="pb-3 pt-5 md:pt-3 grid gap-2">
+					<div className="xl:flex grid gap-2 md:mt-5 justify-between">
+						<h1 className="font-medium text-lg flex items-center gap-2">
+							{company}
+							<span className="text-xs bg-green-200 text-green-900 px-2 rounded">
+								{jobNature}
+							</span>
+						</h1>
+						<div className="text-xs">
+							<p className="flex items-center gap-1">
+								<LocationOutline /> {location}
+							</p>
 						</div>
 					</div>
-				</div>
-				
-				<div className="flex justify-between items-center text-sm">
-					<p>{dateApplied}</p>
+					<div className="flex items-center text-xs">
+						<p className="flex items-center gap-2 text-zinc-500">
+							<CashOutline /> Salary: {salary}
+						</p>
+					</div>
+					<p className="text-zinc-400 text-xs flex items-center gap-2">
+						<ListOutline /> Posted {dateCreated}
+					</p>
 					{status ? (
-						<p className="flex items-center text-green-500 gap-2">
-							<Checkmark color="#22c55e" height="23px" width="23px" />
+						<p className="flex items-center text-green-500 gap-2 text-xs">
+							<Checkmark color="#22c55e" />
 							Active
 						</p>
 					) : (
-						<p className="flex items-center text-[red] gap-2">
-							<CloseOutline color="red" height="23px" width="23px" />
+						<p className="flex items-center text-[red] gap-2 text-xs">
+							<CloseOutline color="red" />
 							Expired
 						</p>
 					)}
-					<Link href={`/jobs/${slug}`}>
-						<div className="flex items-center">
-							<PrimaryButton
-								title="Details"
-								link="#"
-								icon={<EyeOutline height="15px" width="15px" color="white" />}
-							/>
-						</div>
-					</Link>
 				</div>
 			</div>
-		</div>
+		</Link>
 	);
 };
 

@@ -48,13 +48,14 @@ const PopularCategories = (props: any) => {
 	};
 	const { industriesData }: { industriesData: IndustryType[] } = props;
 	return (
-		<div className="md:px-14 px-7 pt-10 md:pt-24">
+		<div className="md:px-14 px-7 pt-10 md:pt-24 bg-white">
 			<div className="flex items-center justify-between">
 				<h1 className="lg:text-3xl text-2xl">Popular Categories</h1>
 				<div>
 					<OutlinedButton1
 						title="View all Jobs"
 						icon={<ReactIcons.ArrowForwardOutline color="dodgerblue" />}
+						link="/jobs"
 					/>
 				</div>
 			</div>

@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { OutlinedButton1, PrimaryButton } from "../../atoms/buttons";
 import Link from "next/link";
 import { isAuth } from "../../../../utils/auth";
-import Image from "next/image";
-import { AccountType, UserType } from "../../../../interfaces/user.type";
 import { useQuery } from "@apollo/client";
 import { GET_USER } from "../../../../types/graphql.type";
 
 const LayoutNavbar = () => {
-	const { loading, error, data, refetch } = useQuery(GET_USER, {
+	const { data, refetch } = useQuery(GET_USER, {
 		fetchPolicy: "network-only",
 	});
 	useEffect(() => {
@@ -65,26 +63,26 @@ const LayoutNavbar = () => {
 				</div>
 			)}
 			{isAuth() && (
-				<div className={`flex gap-5 items-center lg:w-[40%] flex-row-reverse`}>
-					<Link href="/freelancer/dashboard">
+				<div
+					className={`flex gap-5 items-center md:mr-0 mr-5 lg:w-[40%] flex-row-reverse`}
+				>
+					<Link href="/profile">
 						<div
-							className="cursor-pointer h-auto p-[0.5px] w-auto flex justify-center
-				 rounded-full bg-blue-400"
+							className="cursor-pointer h-12 p-[1px] w-12 flex justify-center
+				 rounded-full bg-green-400"
 						>
-							<Image
+							<img
 								src="/images/default_image.png"
 								alt="profile_image"
-								height={60}
-								width={60}
 								className="w-full h-auto object-cover rounded-full"
 							/>
 						</div>
 					</Link>
+					{isAuth() && data?.getUser?.accountType == `EMPLOYER` && (
+						<PrimaryButton title="Post a Job" link="/profile/dashboard#post-job" />
+					)}
 				</div>
 			)}
-			{/* {isAuth() && data?.getUser?.accountType !== AccountType.FREELANCER && (
-				<PrimaryButton title="Post a Job" link="/job/new" />
-			)} */}
 		</div>
 	);
 };

@@ -5,8 +5,8 @@ import FreelancerAppliedJobs from "./jobs/applied";
 import FreelancerSavedJobs from "./jobs/saved";
 import FreelancerJobAlerts from "./jobs/alerts";
 import FreelancerProfileSettings from "./settings";
-import { useRouter } from "next/router";
 import { UserType } from "../../../../interfaces/user.type";
+import { useRouter } from "next/router";
 
 const Freelancer = ({
 	isMobileOpen,
@@ -52,6 +52,8 @@ const Freelancer = ({
 		closeMobileNav: closeMobileNav,
 		activeLink: activeLink,
 		router: router,
+		userRole: user?.accountType,
+		user: user,
 		setActiveLink: (val: string) => setActiveLink(val),
 	};
 

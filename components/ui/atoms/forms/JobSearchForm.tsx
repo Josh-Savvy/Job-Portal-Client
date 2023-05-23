@@ -1,13 +1,21 @@
-import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { LocationOutline } from "react-ionicons";
 
-export const HomeHeroJobSearchForm = () => {
+export const JobSearchForm = () => {
+	const router = useRouter();
+	const [searchVal, setSearchVal] = useState("");
+	const [searchLocationVal, setSearchLocationVal] = useState("");
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		router.push(`/jobs?search=${searchVal}&location=${searchLocationVal}`);
+	};
 	return (
-		<form className="bg-white p-4">
+		<form className="bg-white p-4" onSubmit={handleSubmit}>
 			<div className="lg:flex grid lg:gap-6 divide-gray-100 lg:divide-x-2 lg:divide-y-0 divide-y-2">
 				<div className="flex items-center">
-					<div className="relative">
-						<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+					<div className="relative w-full">
+						<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none w-full">
 							<svg
 								aria-hidden="true"
 								className="w-5 h-5 text-[blue]"
@@ -26,6 +34,8 @@ export const HomeHeroJobSearchForm = () => {
 						</div>
 						<input
 							type="search"
+							value={searchVal}
+							onChange={(e) => setSearchVal(e.target.value)}
 							className="block p-2.5 pl-10 w-full lg:w-[21vw] z-20 text-sm text-gray-900 focus:ring-0 outline-0"
 							placeholder="Job title, Keyword..."
 							required
@@ -39,12 +49,15 @@ export const HomeHeroJobSearchForm = () => {
 					<input
 						type="search"
 						className="block p-2.5 pl-10 lg:pr-20 w-full z-20 text-sm text-gray-900 focus:ring-0 outline-0"
+						value={searchLocationVal}
+						onChange={(e) => setSearchLocationVal(e.target.value)}
 						placeholder="Select Location"
 						required
 					/>
 					<button
+						onClick={handleSubmit}
 						type="submit"
-						className="absolute lg:top-0 top-16 right-0 p-2.5 px-6 font-medium text-white bg-blue-700 rounded hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+						className="absolute lg:top-0 top-16 right-0 p-2.5 px-6 font-medium text-white bg-blue-700 rounded hover:bg-blue-800focus:outline-none focus:ring-0"
 					>
 						Find
 					</button>

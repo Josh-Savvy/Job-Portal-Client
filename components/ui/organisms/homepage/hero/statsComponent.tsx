@@ -79,11 +79,11 @@ const StatsComponent = (...props: any) => {
 			/>
 			<StatMiniComp
 				text={`${
-					allJobs && Math.pow(allEmployers?.length, allJobs?.length) <= 1
+					allJobs && Math.floor(allJobs?.length / allEmployers?.length) <= 1
 						? "New Job"
 						: "New Jobs"
 				}`}
-				number={allJobs ? Math.pow(allEmployers?.length, allJobs?.length) : 0}
+				number={allJobs ? Math.floor(allJobs?.length / allEmployers?.length) : 0}
 				icon={
 					<>
 						<div className="group-hover:flex hidden">

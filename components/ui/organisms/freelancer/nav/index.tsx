@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import * as ReactIcons from "react-ionicons";
 import { logout, removeLocalStorage } from "../../../../../utils/auth";
+import { AccountType, UserType } from "../../../../../interfaces/user.type";
 
 const FreelancerDashboardNav = ({
 	props: {
@@ -10,6 +11,8 @@ const FreelancerDashboardNav = ({
 		links,
 		activeLink,
 		router,
+		userRole,
+		user,
 		setActiveLink = (value: string) => {
 			return value;
 		},
@@ -22,6 +25,8 @@ const FreelancerDashboardNav = ({
 		activeLink: string;
 		closeMobileNav: Function;
 		setActiveLink: Function;
+		userRole?: AccountType;
+		user: UserType;
 		links: { title: string; link: string; icon: string }[];
 	};
 	children: any;
@@ -71,7 +76,16 @@ const FreelancerDashboardNav = ({
 				bg-white h-full top-0 transition-all duration-300`}
 				>
 					<div className="lg:ml-16 mx-5 lg:mx-0">
-						<h1 className="text-sm text-zinc-500 mb-5">My Dashboard</h1>
+						<h1 className="text-sm text-zinc-500 mb-5 flex items-center gap-1 cursor-default">
+							My Dashboard |
+							{userRole === AccountType.EMPLOYER ? (
+								<span className="bg-green-500 p-4"> {userRole}</span>
+							) : userRole === AccountType.ADMIN ? (
+								<span className="bg-blue-500 p-4"> {userRole}</span>
+							) : (
+								<span className="bg-yellow-500 p-1 px-4 rounded"> {userRole}</span>
+							)}
+						</h1>
 						<ul className="grid gap-4 transition-all">
 							{links.map((link, i) => {
 								return (

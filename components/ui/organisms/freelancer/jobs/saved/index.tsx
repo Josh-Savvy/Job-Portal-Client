@@ -28,7 +28,7 @@ const FreelancerSavedJobs = ({ user }: { user: UserType }) => {
 						<li>Action</li>
 					</ul>
 				</div>
-				<div className="grid gap-4 divide-y divide-zinc-200 pb-10">
+				<div className="grid gap-4 pb-10">
 					{user?.savedJobs
 						?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 						.map((job, i) => {

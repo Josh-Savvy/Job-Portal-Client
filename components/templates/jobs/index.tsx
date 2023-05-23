@@ -34,7 +34,7 @@ const JobsPageTemplate = (...props: any) => {
 		const isJobSaved = savedJobId?.some((id) => jobId.includes(id));
 		if (isJobSaved) {
 			setAlreadySaved(true);
-		} 
+		}
 	}, [reFetchedData]);
 
 	const handleBookmark = async (jobId: string) => {
@@ -51,7 +51,7 @@ const JobsPageTemplate = (...props: any) => {
 					progress: undefined,
 				});
 			} else {
-				saveJob({ variables: { jobId, userId: user.id } })
+				saveJob({ variables: { jobId } })
 					.then(() => {
 						toast.success("Job Saved to Profile Successfully!", {
 							position: "top-center",
@@ -84,7 +84,7 @@ const JobsPageTemplate = (...props: any) => {
 	};
 
 	return (
-		<div className="lg:pt-24 pt-32 bg-zinc-100 md:px-14 px-7 h-[120vh]">
+		<div className="lg:pt-24 pt-32 bg-zinc-100 md:px-14 px-7 h-[160vh]">
 			{error && error.message}
 			<ToastContainer />
 			<h1 className="capitalize font-medium text-lg flex items-center gap-1">

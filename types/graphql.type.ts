@@ -7,6 +7,45 @@ export const LOGIN_MUTATION = gql`
 		}
 	}
 `;
+export const REGISTRATION_MUTATION = gql`
+	mutation createUser($createUserInput: CreateUserInput!) {
+		createUser(createUserInput: $createUserInput) {
+			id
+			name
+			email
+			accountType
+		}
+	}
+`;
+
+export enum RegAccountType {
+	EMPLOYER = "EMPLOYER",
+	FREELANCER = "FREELANCER",
+}
+export interface CreateUserInput {
+	name: string;
+	email: string;
+	password: string;
+	accountType: RegAccountType;
+	categoryId: string;
+}
+export enum JobNatureEnum {
+	REMOTE = "Remote",
+	HYBRID = "Hybrid",
+	ONSITE = "On-Site",
+}
+
+export interface JobCreateInput {
+	title: string;
+	description: string;
+	position: string;
+	location: string;
+	company: string;
+	nature: JobNatureEnum;
+	salary: string;
+	responsibilities: [string];
+	categoryId: string;
+}
 
 export const GET_EMPLOYERS = gql`
 	query getEmployers {
@@ -80,6 +119,35 @@ export const GET_USER = gql`
 		}
 	}
 `;
+export const GET_ALL_JOBS_FOR_ADMIN = gql`
+	query getAllJobsForAdmin {
+		getAllJobsForAdmin {
+			id
+			title
+			position
+			description
+			slug
+			category {
+				id
+				title
+				slug
+			}
+			applicants {
+				name
+				email
+				accountType
+			}
+			nature
+			location
+			company
+			createdAt
+			responsibilities
+			active
+			salary
+			createdBy
+		}
+	}
+`;
 
 export const GET_ALL_JOBS = gql`
 	query getAllJobs {
@@ -89,6 +157,11 @@ export const GET_ALL_JOBS = gql`
 			position
 			description
 			slug
+			category {
+				id
+				title
+				slug
+			}
 			nature
 			location
 			company
@@ -109,6 +182,11 @@ export const GET_ALL_JOBS_BY_CATEGORY = gql`
 			position
 			description
 			slug
+			category {
+				id
+				title
+				slug
+			}
 			nature
 			location
 			company
@@ -148,7 +226,43 @@ export const GET_INDUSTRIES = gql`
 `;
 
 export const SAVE_JOB_TO_PROFILE = gql`
-	mutation saveJob($jobId: String!, $userId: String!) {
-		saveJob(jobId: $jobId, userId: $userId)
+	mutation saveJob($jobId: String!) {
+		saveJob(jobId: $jobId)
+	}
+`;
+
+export const APPLY_FOR_JOB = gql`
+	mutation applyForJob($jobId: String!) {
+		applyForJob(jobId: $jobId)
+	}
+`;
+
+export const GET_JOB_BY_ID = gql`
+	query getJobById($jobId: String!) {
+		getJobById(jobId: $jobId) {
+			id
+			title
+			position
+			description
+			slug
+			category {
+				id
+				title
+				slug
+			}
+			nature
+			location
+			company
+			createdAt
+			responsibilities
+			active
+			salary
+			createdBy
+		}
+	}
+`;
+export const CREATE_JOB = gql`
+	mutation createJob($jobCreateInput: JobCreateInput!) {
+		createJob(jobCreateInput: $jobCreateInput)
 	}
 `;

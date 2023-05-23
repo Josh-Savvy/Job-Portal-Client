@@ -46,22 +46,47 @@ export function sortArray(arr: any[], dateProp: string): any[] {
 	return merge(sortArray(left, dateProp), sortArray(right, dateProp), dateProp);
 }
 
-export function formatDate(createdAt: Date): string {
-	const timeDiff = Date.now() - new Date(createdAt).getTime();
-	const minutes = Math.floor(timeDiff / 60000);
-	if (minutes < 60) {
-		return `${minutes} mins ago`;
+export const formatDate = (date: Date) => {
+	const createdAt = new Date(date);
+	const currentTime = new Date();
+
+	const timeDiff = currentTime.getTime() - createdAt.getTime();
+
+	const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+	const hours = Math.floor(
+		(timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+	);
+	const week = Math.round(days / 7);
+
+	if (days >= 7) {
+		if (week >= 2) return `${week}wks`;
+		else {
+			return `${week} week`;
+		}
 	}
-	const hours = Math.floor(minutes / 60);
-	if (hours == 1) {
-		return `${hours} hour ago`;
+	if (days >= 28) {
+		return `${days / 28}mos`;
 	}
-	if (hours < 24) {
-		return `${hours} hours ago`;
-	}
-	if (hours == 24) {
-		return `${hours} day ago`;
-	}
-	const days = Math.floor(hours / 24);
-	return `${days} days ago`;
+	return `${days}d ${hours}hr`;
+};
+export function extractUuidsFromString(str: string) {
+	const uuidPattern =
+		/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4[a-fA-F0-9]{3}-[8|9|aA|bB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}/g;
+	const uuid = str.match(uuidPattern);
+	return uuid;
+}
+
+export function copyURLToClipboard(next?: Function) {
+	const currentURL = window.location.href;
+	navigator.clipboard
+		.writeText(currentURL)
+		.then(() => {
+			console.log("URL copied to clipboard:", currentURL);
+			next && next();
+		})
+		.catch((error) => {
+			console.error("Failed to copy URL to clipboard:", error);
+			next && next();
+			return error;
+		});
 }

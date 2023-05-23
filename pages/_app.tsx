@@ -13,6 +13,8 @@ import NProgress from "nprogress";
 import { useRouter } from "next/router";
 import { ApolloProvider } from "@apollo/client";
 import client from "../apolloClient";
+import "react-datepicker/dist/react-datepicker.css";
+import "react-quill/dist/quill.snow.css";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
 	const [loading, setLoading] = useState(false);

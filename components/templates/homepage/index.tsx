@@ -20,13 +20,15 @@ const HomepageTemplate = ({
 	industriesData: IndustryType[];
 }) => {
 	return (
-		<div className="">
-			<Hero
-				allFreelancers={allFreelancers}
-				allEmployers={allEmployers}
-				allJobs={allJobs}
-				industriesData={industriesData}
-			/>
+		<div className="bg-zinc-100">
+			<div className="mb-20 md:mb-10">
+				<Hero
+					allFreelancers={allFreelancers}
+					allEmployers={allEmployers}
+					allJobs={allJobs}
+					industriesData={industriesData}
+				/>
+			</div>
 			<PopularCategories industriesData={industriesData} />
 			<OurWorkingProcess />
 			<FeaturedJob />

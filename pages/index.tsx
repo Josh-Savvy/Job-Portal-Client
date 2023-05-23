@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import HomepageTemplate from "../components/templates/homepage";
 import { useQuery } from "@apollo/client";
-import { logout, removeLocalStorage, setLocalStorage } from "../utils/auth";
+import { logout } from "../utils/auth";
 import {
 	GET_ALL_JOBS,
 	GET_EMPLOYERS,

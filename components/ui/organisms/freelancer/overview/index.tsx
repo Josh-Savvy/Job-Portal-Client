@@ -23,7 +23,7 @@ const OverviewForFreelancer = ({ user }: { user: UserType }) => {
 					Here are your daily activities & career opportunities
 				</p>
 			</div>
-			<div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-4">
+			<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
 				<Link href="#applied-jobs">
 					<div className="px-5 cursor-pointer bg-blue-800 hover:scale-y-[1.09] duration-300 text-white flex justify-between items-center p-5 rounded-lg shadow-lg">
 						<div className="grid gap-2">

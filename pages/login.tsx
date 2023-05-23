@@ -8,13 +8,19 @@ import { LOGIN_MUTATION } from "../types/graphql.type";
 import { authenticate, logout } from "../utils/auth";
 import { GetServerSidePropsContext } from "next";
 
-const Login = ({ notLoggedin }: { notLoggedin: boolean }) => {
+const Login = ({
+	notLoggedin,
+	serverEmail,
+}: {
+	notLoggedin: boolean;
+	serverEmail: string;
+}) => {
 	!notLoggedin && logout();
 	const [login, { loading, error, data }] = useMutation(LOGIN_MUTATION);
 	const router = useRouter();
 	const [showPassword, setShowPassword] = useState<boolean>(false);
 	const formDetails = {
-		email: "",
+		email: serverEmail || "",
 		password: "",
 	};
 	const [formState, setFormState] = useState(formDetails);
@@ -39,7 +45,7 @@ const Login = ({ notLoggedin }: { notLoggedin: boolean }) => {
 				draggable: true,
 				progress: undefined,
 			});
-			return new Error("Invalid Credentials!");
+			return;
 		}
 		try {
 			const response = await login({
@@ -57,7 +63,7 @@ const Login = ({ notLoggedin }: { notLoggedin: boolean }) => {
 			// 	progress: undefined,
 			// });
 			authenticate(response.data.login, () => {
-				router.replace("/freelancer/dashboard");
+				router.replace("/profile");
 			});
 		} catch (error: any) {
 			toast.error(
@@ -79,99 +85,103 @@ const Login = ({ notLoggedin }: { notLoggedin: boolean }) => {
 	};
 
 	return (
-		<form
-			autoComplete="false"
-			onSubmit={handleSubmit}
-			className="relative min-h-screen bg-blue-50 flex justify-center items-center"
-		>
-			<ToastContainer />
-			<div className="absolute w-60 h-60 rounded-xl bg-blue-300 -top-5 -left-16 transform rotate-45 hidden md:block"></div>
-			<div className="absolute w-48 h-48 rounded-xl bg-blue-300 -bottom-6 right-10 transform md:block rotate-12 hidden"></div>
-			<div className="py-12 px-12 bg-white md:rounded-2xl shadow-xl">
-				<div>
-					<h1 className="text-3xl font-bold text-center mb-4">Log In</h1>
-					<p className="w-80 text-center text-sm mb-8 font-semibold text-gray-700 tracking-wide">
-						Log into your account.
-					</p>
-				</div>
-				<div className="space-y-4">
-					<input
-						autoComplete="off"
-						type="text"
-						name="email"
-						value={email}
-						onChange={handleChange}
-						placeholder="Email Address or Username"
-						className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
-					/>
-					<div className="relative border p-2 rounded-lg flex items-center">
+		<>
+			<form
+				autoComplete="false"
+				onSubmit={handleSubmit}
+				className="relative min-h-screen bg-blue-50 flex justify-center items-center"
+			>
+				<ToastContainer />
+				<div className="absolute w-60 h-60 rounded-xl bg-blue-300 -top-5 -left-16 transform rotate-45 hidden md:block"></div>
+				<div className="absolute w-48 h-48 rounded-xl bg-blue-300 -bottom-6 right-10 transform md:block rotate-12 hidden"></div>
+				<div className="py-12 px-12 bg-white md:rounded-2xl shadow-xl">
+					<div>
+						<h1 className="text-3xl font-bold text-center mb-4">Log In</h1>
+						<p className="w-80 text-center text-sm mb-8 font-semibold text-gray-700 tracking-wide">
+							Log into your account.
+						</p>
+					</div>
+					<div className="space-y-4">
 						<input
 							autoComplete="off"
-							value={password}
-							name="password"
+							type="text"
+							name="email"
+							value={email}
 							onChange={handleChange}
-							type={showPassword ? "text" : "password"}
-							placeholder="Password"
-							className="block text-sm py-3 px-4 rounded-lg w-full border-0 outline-none"
+							placeholder="Email Address or Username"
+							className="block text-sm py-3 px-4 rounded-lg w-full border outline-none"
 						/>
-						<div className="cursor-pointer">
-							<div
-								onClick={() => setShowPassword(true)}
-								className={!showPassword ? "block duration-300" : "hidden duration-300"}
-							>
-								<EyeOutline />
-							</div>
-							<div
-								onClick={() => setShowPassword(false)}
-								className={showPassword ? "block duration-300" : "hidden duration-300"}
-							>
-								<EyeOffOutline />
+						<div className="relative border p-2 rounded-lg flex items-center">
+							<input
+								autoComplete="off"
+								value={password}
+								name="password"
+								onChange={handleChange}
+								type={showPassword ? "text" : "password"}
+								placeholder="Password"
+								className="block text-sm py-3 px-4 rounded-lg w-full border-0 outline-none"
+							/>
+							<div className="cursor-pointer">
+								<div
+									onClick={() => setShowPassword(true)}
+									className={
+										!showPassword ? "block duration-300" : "hidden duration-300"
+									}
+								>
+									<EyeOutline />
+								</div>
+								<div
+									onClick={() => setShowPassword(false)}
+									className={showPassword ? "block duration-300" : "hidden duration-300"}
+								>
+									<EyeOffOutline />
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div className="text-center mt-6">
-					<button className="py-2 w-64 text-xl text-white bg-blue-400 rounded-lg hover:bg-blue-600 duration-300">
-						Login
-					</button>
-				</div>
-				<div className="flex justify-center">
-					<div className="flex gap-8 items-center mt-4">
-						<Link href="/register">
-							<p className="text-sm md:flex grid gap-3 justify-center group cursor-pointer">
-								Don&apos;t have An Account?{" "}
-								<span className="group-hover:underline font-semibold group-hover:text-blue-500 duration-300">
-									Register
-								</span>
-							</p>
-						</Link>
-						<Link href="/auth/forgot-password">
-							<p className="text-sm text-zinc-400 hover:text-red-500 cursor-pointer">
-								Forgot Password?
-							</p>
-						</Link>
+					<div className="text-center mt-6">
+						<button className="py-2 w-64 text-xl text-white bg-blue-400 rounded-lg hover:bg-blue-600 duration-300">
+							Login
+						</button>
+					</div>
+					<div className="flex justify-center">
+						<div className="flex gap-8 items-center mt-4">
+							<Link href="/register">
+								<p className="text-sm md:flex grid gap-3 justify-center group cursor-pointer">
+									Don&apos;t have An Account?{" "}
+									<span className="group-hover:underline font-semibold group-hover:text-blue-500 duration-300">
+										Register
+									</span>
+								</p>
+							</Link>
+							<Link href="/auth/forgot-password">
+								<p className="text-sm text-zinc-400 hover:text-red-500 cursor-pointer">
+									Forgot Password?
+								</p>
+							</Link>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div className="w-40 h-40 absolute bg-blue-300 rounded-full top-0 right-12 hidden md:block"></div>
-			<div className="w-20 h-40 absolute bg-blue-300 rounded-full bottom-20 left-10 transform rotate-45 hidden md:block"></div>
-		</form>
+				<div className="w-40 h-40 absolute bg-blue-300 rounded-full top-0 right-12 hidden md:block"></div>
+				<div className="w-20 h-40 absolute bg-blue-300 rounded-full bottom-20 left-10 transform rotate-45 hidden md:block"></div>
+			</form>
+		</>
 	);
 };
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 	const token = ctx.req.cookies.token;
-
+	const { auth } = ctx.query;
 	if (token) {
 		return {
 			redirect: {
-				destination: "/freelancer",
+				destination: "/profile",
 				permanent: false,
 			},
 		};
 	} else {
 		return {
-			props: { notLoggedin: true },
+			props: { notLoggedin: true, serverEmail: auth ? auth : "" },
 		};
 	}
 }

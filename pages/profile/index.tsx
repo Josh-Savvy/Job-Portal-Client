@@ -1,12 +1,13 @@
 import { GetServerSidePropsContext } from "next";
-import React from "react";
 
-const FreelancerPage = () => {
+const ProfilePage = () => {
 	return <div>Redirecting...</div>;
 };
 
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-	const token = ctx.req.cookies.token;
+export const getServerSideProps = async (
+	context: GetServerSidePropsContext,
+) => {
+	const token = context.req.cookies.token;
 	if (!token) {
 		return {
 			redirect: {
@@ -15,13 +16,12 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 			},
 		};
 	}
-
 	return {
 		redirect: {
+			destination: "/profile/dashboard",
 			permanent: false,
-			destination: `/freelancer/dashboard`,
 		},
 	};
 };
 
-export default FreelancerPage;
+export default ProfilePage;

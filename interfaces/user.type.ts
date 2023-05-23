@@ -41,7 +41,9 @@ export interface JobType {
 	nature: string;
 	location: string;
 	company: string;
+	applicants?: UserType[];
 	createdBy: string;
+	category: IndustryType;
 	salary: string;
 	active: boolean;
 	expired: boolean;
@@ -54,4 +56,16 @@ export enum AccountType {
 	FREELANCER = "Freelancer",
 	EMPLOYER = "Employer",
 	ADMIN = "Admin",
+}
+export enum RegAccountType {
+	FREELANCER = "FREELANCER",
+	EMPLOYER = "EMPLOYER",
+}
+
+export interface CreateUserInput {
+	name: string;
+	email: string;
+	password: string;
+	accountType: RegAccountType;
+	categoryId: string;
 }
